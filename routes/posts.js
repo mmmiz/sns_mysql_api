@@ -51,6 +51,8 @@ router.get('/myposts', (req, res) => {
 
   db.query(q, [userId ],(err, data) => {
     if (err) return res.status(500).json(err);
+    // console.log('Query result posts:', data);
+
     return res.status(200).json(data);
   });
 })
@@ -79,21 +81,6 @@ router.get('/', (req, res) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
     });
-  });
-});
-
-
-router.get("/mylikes", (req, res) => {
-  const q = `
-    SELECT p.*
-    FROM posts p
-    JOIN likes l ON p.postId = l.postId
-    WHERE l.userId = ?;
-  `;
-    
-  db.query(q, [req.user.userId], (err, data) => {
-    if (err) return res.status(500).json(err);
-    return res.status(200).json(data.map(like => like.postId));
   });
 });
 
