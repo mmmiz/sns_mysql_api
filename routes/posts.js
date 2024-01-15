@@ -19,11 +19,12 @@ router.post("/", (req, res) => {
     }
     console.log("Decoded user info:", userInfo);
 
-    const q = "INSERT INTO posts(`desc`, `img`, `createdAt`, `userId`) VALUES (?)";
+    const q = "INSERT INTO posts (`desc`, `img`, `createdAt`, `userId`) VALUES (?)";
+  
     const values = [
       req.body.desc,
       req.body.img,
-      moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+      moment().format("YYYY-MM-DD HH:mm:ss"),
       userInfo.id,
     ];
     console.log("Post values:", values);
@@ -65,7 +66,7 @@ router.get('/', (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    console.log(userId);
+    console.log('The ', userId);
 
     const q =
       userId !== "undefined"
